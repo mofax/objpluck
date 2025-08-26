@@ -57,7 +57,7 @@ describe("pluck", () => {
 	});
 
 	it("should handle deeply nested arrays and objects", () => {
-		const obj = { a: [{ b: [{ c: "deep" }] }] };
+		const obj = { a: [{ b: [{ c: "deep" }] }] } as const;
 		expect(pluck(obj, "a[0].b[0].c")).toBe("deep");
 	});
 
@@ -82,7 +82,7 @@ describe("pluck", () => {
 				[1, 2],
 				[3, 4],
 			],
-		};
+		} as const;
 		expect(pluck(obj, "a[1][0]")).toBe(3);
 	});
 });

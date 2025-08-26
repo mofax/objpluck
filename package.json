@@ -1,6 +1,6 @@
 {
 	"name": "objpluck",
-	"version": "0.0.2",
+	"version": "0.0.4",
 	"type": "module",
 	"main": "lib/objpluck.js",
 	"repository": "https://github.com/mofax/objpluck",

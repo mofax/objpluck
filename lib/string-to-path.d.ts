@@ -1,4 +1,4 @@
-import type { PropertyName } from "./types";
+type PropertyName = string | number;
 /**
  * Converts a string path to an array of keys.
  * Handles dot notation and bracket notation
@@ -10,3 +10,4 @@ import type { PropertyName } from "./types";
  * ```
  */
 export declare function stringToPath(path: string): PropertyName[];
+export {};

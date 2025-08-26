@@ -1,4 +1,4 @@
-import type { PropertyName } from "./types";
+type PropertyName = string | number;
 
 /**
  * Converts a string path to an array of keys.

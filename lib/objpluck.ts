@@ -1,6 +1,31 @@
 import { stringToPath } from "./string-to-path";
-import type { PluckableObject, PropertyPath } from "./types";
+import type { PluckableObject } from "./types";
+import type { StringToPath } from "./string-to-path.type";
 
+/**
+ * Helper type to get the value at a specific path in an object type
+ */
+type GetValueAtPath<T, P extends readonly unknown[]> = P extends readonly [infer K, ...infer Rest]
+	? K extends keyof T
+		? Rest extends readonly []
+			? T[K]
+			: GetValueAtPath<T[K], Rest>
+		: T extends readonly unknown[]
+		? K extends number
+			? Rest extends readonly []
+				? T[K]
+				: GetValueAtPath<T[K], Rest>
+			: K extends `${number}`
+			? K extends `${infer N extends number}`
+				? Rest extends readonly []
+					? T[N]
+					: GetValueAtPath<T[N], Rest>
+				: undefined
+			: undefined
+		: undefined
+	: T;
+
+type Key = string | number;
 /**
  * Gets the value at path of object.
  *
@@ -8,13 +33,14 @@ import type { PluckableObject, PropertyPath } from "./types";
  * @param path - The path of the property to get
  * @returns Returns the resolved value
  */
-export function pluck<T extends PluckableObject>(inputObject: T, path: PropertyPath): unknown {
-	// Handle null/undefined object
+export function pluck<T extends PluckableObject, S extends Key>(
+	inputObject: T,
+	path: S
+): S extends string ? GetValueAtPath<T, StringToPath<S>> : T[S] {
 	if (inputObject == null) {
 		throw new Error("pluck() cannot operate on a null object");
 	}
 
-	// Handle empty path
 	if (path == null || path === "") {
 		throw new Error("pluck() cannot operate without a path");
 	}
@@ -23,7 +49,6 @@ export function pluck<T extends PluckableObject>(inputObject: T, path: PropertyP
 		return inputObject[path];
 	}
 
-	// Convert path to array if it's a string
 	const pathArray = stringToPath(path);
 
 	// Traverse the object
@@ -33,5 +58,7 @@ export function pluck<T extends PluckableObject>(inputObject: T, path: PropertyP
 		if (i === pathArray.length - 1) return temp;
 		current = temp;
 	}
-	return undefined;
+
+	// This should never be reached, but typescript!
+	return current;
 }
