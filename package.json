@@ -1,16 +1,12 @@
 {
 	"name": "objpluck",
-	"version": "0.0.0",
+	"version": "0.0.2",
 	"type": "module",
-	"main": "lib/objpluck.ts",
+	"main": "lib/objpluck.js",
+	"repository": "https://github.com/mofax/objpluck",
 	"scripts": {
 		"format": "prettier --write ."
 	},
-	"files": [
-		"lib/objpluck.ts",
-		"lib/string-to-path.ts",
-		"lib/types.ts"
-	],
 	"devDependencies": {
 		"@types/bun": "latest",
 		"typescript": "^5"
